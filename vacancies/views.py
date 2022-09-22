@@ -22,6 +22,7 @@ def index(request):
             })
 
         return JsonResponse(response, safe=False, json_dumps_params={"ensure_ascii": False})
+    elif request.method == 'POST'
 
 
 def get(request, vacancy_id):
