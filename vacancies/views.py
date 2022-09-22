@@ -1,5 +1,8 @@
+import json
+
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from vacancies.models import Vacancy
 
@@ -8,6 +11,7 @@ def hello(request):
     return HttpResponse("Hello World")
 
 
+@csrf_exempt
 def index(request):
     if request.method == 'GET':
         vacancies = Vacancy.objects.all()
@@ -22,7 +26,17 @@ def index(request):
             })
 
         return JsonResponse(response, safe=False, json_dumps_params={"ensure_ascii": False})
-    elif request.method == 'POST'
+    elif request.method == 'POST':
+        vacancy_data = json.loads(request.body)
+        vacancy = Vacancy()
+        vacancy.text = vacancy_data["text"]
+
+        vacancy.save()
+
+        return JsonResponse({
+                "id": vacancy.id,
+                "text": vacancy.text
+            })
 
 
 def get(request, vacancy_id):
