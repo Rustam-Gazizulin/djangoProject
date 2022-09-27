@@ -38,8 +38,7 @@ class VacancyView(View):
         vacancy.save()
 
         return JsonResponse({
-            "id": vacancy.id,
-            "text": vacancy.text
+            "id": vacancy.id,            "text": vacancy.text
         })
 
 
