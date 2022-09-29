@@ -27,7 +27,8 @@ class VacancyListView(ListView):
         for vacancy in self.object_list:
             response.append({
                 "id": vacancy.id,
-                "text": vacancy.text
+                "text": vacancy.text,
+                "skills": list(vacancy.skills.all().values_list('name', flat=True))
             })
 
         return JsonResponse(response, safe=False, json_dumps_params={"ensure_ascii": False})
@@ -75,7 +76,7 @@ class VacancyUpdateView(UpdateView):
     model = Vacancy
     fields = ["slug", "text", "status", "skills"]
 
-    def patch(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)
 
         vacancy_data = json.loads(request.body)
