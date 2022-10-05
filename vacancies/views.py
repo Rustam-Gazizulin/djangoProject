@@ -46,7 +46,8 @@ class VacancyDetailView(DetailView):
             "slug": vacancy.slug,
             "status": vacancy.status,
             "created": vacancy.created,
-            "user": vacancy.user_id
+            "user": vacancy.user_id,
+            "skills": list(vacancy.skills.all().values_list("name", flat=True)),
         })
 
 
@@ -62,12 +63,15 @@ class VacancyCreateView(CreateView):
             user_id=vacancy_data["user_id"],
             slug=vacancy_data["slug"],
             text=vacancy_data["text"],
-            status=vacancy_data["status"]
+            status=vacancy_data["status"],
+
         )
 
         return JsonResponse({
             "id": vacancy.id,
-            "text": vacancy.text
+            "text": vacancy.text,
+            "skills": list(vacancy.skills.all().values_list('name', flat=True))
+
         })
 
 
@@ -76,7 +80,7 @@ class VacancyUpdateView(UpdateView):
     model = Vacancy
     fields = ["slug", "text", "status", "skills"]
 
-    def post(self, request, *args, **kwargs):
+    def patch(self, request, *args, **kwargs):
         super().post(request, *args, **kwargs)
 
         vacancy_data = json.loads(request.body)
