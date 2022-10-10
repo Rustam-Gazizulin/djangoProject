@@ -4,6 +4,7 @@ from django.db import models
 
 class Skill(models.Model):
     name = models.CharField(max_length=20)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "Навык"
@@ -30,6 +31,6 @@ class Vacancy(models.Model):
         verbose_name = "Вакансия"
         verbose_name_plural = "Вакансии"
 
+
     def __str__(self):
         return self.slug
-
