@@ -4,15 +4,21 @@ from django.db.models import Count, Avg
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.viewsets import ModelViewSet
 
 from djangoProject import settings
-from vacancies.models import Vacancy
+from vacancies.models import Vacancy, Skill
 from vacancies.serializers import VacancyDetailSerializer, VacancyListSerializer, VacancyCreateSerializer, \
-    VacancyUpdateSerializer, VacancyDestroySerializer
+    VacancyUpdateSerializer, VacancyDestroySerializer, SkillSerializer
 
 
 def hello(request):
     return HttpResponse("Hello World")
+
+
+class SkillsViewSet(ModelViewSet):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
 
 
 class VacancyListView(ListAPIView):
